@@ -29,6 +29,8 @@
 
 html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
+    width: 100%;
 }
 
 body {
@@ -36,6 +38,10 @@ body {
     line-height: 1.6;
     color: var(--text-dark);
     background-color: var(--white);
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
+    position: relative;
 }
 
 /* ============================================
@@ -309,6 +315,9 @@ body {
    ============================================ */
 .section {
     padding: 5rem 2rem;
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
 }
 
 .bg-light {
@@ -323,6 +332,9 @@ body {
 .container {
     max-width: 1200px;
     margin: 0 auto;
+    width: 100%;
+    padding: 0 1rem;
+    overflow-x: hidden;
 }
 
 .section-title {
@@ -350,13 +362,17 @@ body {
 .content-grid {
     display: grid;
     gap: 2rem;
+    width: 100%;
+    max-width: 100%;
 }
 
 .two-column {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(400px, 100%), 1fr));
     gap: 3rem;
     margin-top: 2rem;
+    width: 100%;
+    max-width: 100%;
 }
 
 .column h3 {
@@ -1259,6 +1275,40 @@ body {
 
 /* Móviles */
 @media (max-width: 768px) {
+    /* Prevenir scroll horizontal */
+    html, body {
+        overflow-x: hidden;
+        width: 100%;
+        max-width: 100vw;
+    }
+
+    .section {
+        overflow-x: hidden;
+        max-width: 100vw;
+    }
+
+    .container {
+        overflow-x: hidden;
+        max-width: 100%;
+        padding: 0 1rem;
+    }
+
+    /* Forzar que todos los grids no se salgan */
+    .content-grid,
+    .two-column,
+    .hero-stats,
+    .c-effects,
+    .kernel-grid,
+    .data-generator,
+    .metrics,
+    .applications-grid,
+    .tips-grid,
+    .summary-grid {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
     /* Navegación móvil */
     .nav-toggle {
         display: flex;
@@ -1487,6 +1537,42 @@ body {
     .advantage-box {
         padding: 1.5rem 1rem;
         margin: 1.5rem 0;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        overflow-x: hidden;
+    }
+
+    /* Asegurar que todas las cajas no se salgan */
+    .interactive-box,
+    .example-container,
+    .c-parameter-box,
+    .formula-box,
+    .formula-box-small,
+    .comparison-card,
+    .method-card,
+    .app-card,
+    .tip-card,
+    .kernel-card {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        overflow-x: auto;
+    }
+
+    /* Forzar tablas responsive */
+    table {
+        width: 100%;
+        max-width: 100%;
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    tbody, thead, tr {
+        display: table;
+        width: 100%;
+        table-layout: fixed;
     }
 
     /* Métricas */
