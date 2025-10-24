@@ -1,0 +1,6 @@
+# Ignorar archivos temporales
+nul
+.DS_Store
+
+# Ignorar carpetas de sistema
+DDD/

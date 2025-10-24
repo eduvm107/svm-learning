@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Máquinas de Vectores de Soporte - Guía Interactiva</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1 class="nav-logo">📊 SVM Learning</h1>
+            <ul class="nav-menu">
+                <li><a href="#intro">Introducción</a></li>
+                <li><a href="#maximal">Clasificador de Margen Máximo</a></li>
+                <li><a href="#svc">Support Vector Classifier</a></li>
+                <li><a href="#svm">Support Vector Machine</a></li>
+                <li><a href="#multiclass">SVMs Multiclase</a></li>
+                <li><a href="#ejemplos">Ejemplos Interactivos</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Máquinas de Vectores de Soporte</h1>
+            <p class="hero-subtitle">Una Guía Interactiva para Comprender SVM desde sus Fundamentos</p>
+            <div class="hero-stats">
+                <div class="stat-card">
+                    <span class="stat-number">3</span>
+                    <span class="stat-label">Tipos de Clasificadores</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">∞</span>
+                    <span class="stat-label">Aplicaciones</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">100%</span>
+                    <span class="stat-label">Interactivo</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Introducción -->
+    <section id="intro" class="section">
+        <div class="container">
+            <h2 class="section-title">¿Qué son las Support Vector Machines?</h2>
+            <div class="content-grid">
+                <div class="content-text">
+                    <p class="intro-text">
+                        Las <strong>Support Vector Machines (SVM)</strong> son un enfoque para clasificación desarrollado
+                        en la década de 1990 que ha demostrado un excelente desempeño en una variedad de contextos.
+                        Son consideradas uno de los mejores clasificadores "listos para usar".
+                    </p>
+
+                    <div class="key-points">
+                        <h3>🎯 Conceptos Clave</h3>
+                        <ul class="key-list">
+                            <li><strong>Hiperplano:</strong> Un subespacio plano de dimensión p-1 que separa el espacio en dos mitades</li>
+                            <li><strong>Margen:</strong> La distancia mínima desde las observaciones al hiperplano</li>
+                            <li><strong>Vectores de Soporte:</strong> Observaciones que definen el margen máximo</li>
+                            <li><strong>Kernel:</strong> Función que permite fronteras de decisión no lineales</li>
+                        </ul>
+                    </div>
+
+                    <div class="evolution-box">
+                        <h3>📈 Evolución del Método</h3>
+                        <div class="evolution-steps">
+                            <div class="step">
+                                <span class="step-number">1</span>
+                                <p><strong>Clasificador de Margen Máximo</strong><br>
+                                Simple pero requiere clases linealmente separables</p>
+                            </div>
+                            <div class="step-arrow">→</div>
+                            <div class="step">
+                                <span class="step-number">2</span>
+                                <p><strong>Support Vector Classifier</strong><br>
+                                Permite violaciones al margen con "soft margin"</p>
+                            </div>
+                            <div class="step-arrow">→</div>
+                            <div class="step">
+                                <span class="step-number">3</span>
+                                <p><strong>Support Vector Machine</strong><br>
+                                Usa kernels para fronteras no lineales</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hiperplanos -->
+    <section class="section bg-light">
+        <div class="container">
+            <h2 class="section-title">Entendiendo los Hiperplanos</h2>
+
+            <div class="two-column">
+                <div class="column">
+                    <h3>Definición Matemática</h3>
+                    <p>En un espacio p-dimensional, un hiperplano se define por:</p>
+                    <div class="formula-box">
+                        $$\beta_0 + \beta_1X_1 + \beta_2X_2 + \cdots + \beta_pX_p = 0$$
+                    </div>
+                    <p>Si un punto \(X = (X_1, X_2, \ldots, X_p)^T\) satisface esta ecuación, entonces \(X\) se encuentra exactamente en el hiperplano. Esta ecuación representa un subespacio afín de dimensión \(p-1\) en un espacio \(p\)-dimensional.</p>
+
+                    <h4>Propiedades Importantes:</h4>
+                    <ul class="property-list">
+                        <li><strong>Clasificación por signo:</strong> Si \(\beta_0 + \beta_1X_1 + \cdots + \beta_pX_p > 0\), entonces \(X\) está en un lado del hiperplano (clase +1)</li>
+                        <li><strong>Clasificación opuesta:</strong> Si \(\beta_0 + \beta_1X_1 + \cdots + \beta_pX_p < 0\), entonces \(X\) está en el otro lado (clase -1)</li>
+                        <li><strong>División del espacio:</strong> El hiperplano divide el espacio p-dimensional en dos semi-espacios disjuntos</li>
+                        <li><strong>Vector normal:</strong> El vector \(\beta = (\beta_1, \ldots, \beta_p)^T\) es perpendicular al hiperplano</li>
+                        <li><strong>Distancia:</strong> La distancia de un punto al hiperplano es \(\frac{|\beta_0 + \beta^TX|}{\|\beta\|}\)</li>
+                    </ul>
+
+                    <div class="info-box">
+                        <h4>💡 Intuición Geométrica:</h4>
+                        <p>En 2D, un hiperplano es una línea. En 3D, es un plano. En dimensiones superiores, seguimos llamándolo hiperplano aunque no podamos visualizarlo directamente.</p>
+                    </div>
+                </div>
+
+                <div class="column">
+                    <div class="interactive-box">
+                        <h3>Visualización Interactiva 2D</h3>
+                        <div id="hyperplane-plot" class="plot-container"></div>
+                        <div class="controls">
+                            <label>
+                                β₀: <input type="range" id="beta0" min="-5" max="5" step="0.1" value="1">
+                                <span id="beta0-value">1</span>
+                            </label>
+                            <label>
+                                β₁: <input type="range" id="beta1" min="-5" max="5" step="0.1" value="2">
+                                <span id="beta1-value">2</span>
+                            </label>
+                            <label>
+                                β₂: <input type="range" id="beta2" min="-5" max="5" step="0.1" value="3">
+                                <span id="beta2-value">3</span>
+                            </label>
+                        </div>
+                        <p class="formula-display">Ecuación actual: <span id="current-equation">1 + 2X₁ + 3X₂ = 0</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visualización 3D del Hiperplano -->
+            <div class="interactive-box" style="margin-top: 3rem;">
+                <h3>🎨 Visualización 3D del Hiperplano</h3>
+                <p>Esta visualización muestra cómo un hiperplano (en este caso un plano en 3D) separa el espacio tridimensional en dos regiones.</p>
+                <div id="hyperplane-3d-plot" class="plot-container-large"></div>
+                <div class="controls">
+                    <label>
+                        β₀ (intercepto): <input type="range" id="beta0-3d" min="-5" max="5" step="0.1" value="0">
+                        <span id="beta0-3d-value">0</span>
+                    </label>
+                    <label>
+                        β₁ (coef. X₁): <input type="range" id="beta1-3d" min="-5" max="5" step="0.1" value="1">
+                        <span id="beta1-3d-value">1</span>
+                    </label>
+                    <label>
+                        β₂ (coef. X₂): <input type="range" id="beta2-3d" min="-5" max="5" step="0.1" value="1">
+                        <span id="beta2-3d-value">1</span>
+                    </label>
+                    <label>
+                        β₃ (coef. X₃): <input type="range" id="beta3-3d" min="-5" max="5" step="0.1" value="1">
+                        <span id="beta3-3d-value">1</span>
+                    </label>
+                </div>
+                <p class="formula-display">Ecuación del hiperplano: <span id="equation-3d">0 + 1X₁ + 1X₂ + 1X₃ = 0</span></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Clasificador de Margen Máximo -->
+    <section id="maximal" class="section">
+        <div class="container">
+            <h2 class="section-title">Clasificador de Margen Máximo</h2>
+
+            <div class="concept-intro">
+                <p class="intro-text">
+                    Cuando las clases son <strong>linealmente separables</strong>, existen infinitos hiperplanos
+                    que pueden separarlas perfectamente. El <em>clasificador de margen máximo</em> elige
+                    el hiperplano que está más alejado de las observaciones de entrenamiento.
+                </p>
+                <p class="intro-text">
+                    La idea fundamental es que un clasificador basado en un hiperplano que se encuentra muy alejado
+                    de los datos de entrenamiento tiene menos probabilidad de cometer errores en nuevas observaciones
+                    (datos de prueba). Esta es una aplicación del principio de <strong>margin maximization</strong>,
+                    que busca crear un "colchón" de separación entre las clases.
+                </p>
+            </div>
+
+            <div class="key-points">
+                <h3>🔑 Conceptos Fundamentales del Margen Máximo</h3>
+                <ul class="key-list">
+                    <li><strong>Margen (M):</strong> Es la distancia perpendicular mínima desde cualquier observación de entrenamiento al hiperplano de separación</li>
+                    <li><strong>Margen máximo:</strong> El clasificador busca el hiperplano que maximiza esta distancia M</li>
+                    <li><strong>Clasificación:</strong> Para una observación \(x^* = (x_1^*, \ldots, x_p^*)^T\), se predice \(y^* = \text{sign}(f(x^*))\) donde \(f(x^*) = \beta_0 + \beta_1x_1^* + \cdots + \beta_px_p^*\)</li>
+                    <li><strong>Confianza:</strong> Cuanto mayor es \(|f(x^*)|\), más confiamos en la clasificación</li>
+                </ul>
+            </div>
+
+            <div class="two-column">
+                <div class="column">
+                    <h3>Problema de Optimización</h3>
+                    <div class="formula-box">
+                        $$\text{maximizar}_{\beta_0,\beta_1,\ldots,\beta_p, M} \quad M$$
+                        $$\text{sujeto a} \quad \sum_{j=1}^p \beta_j^2 = 1$$
+                        $$y_i(\beta_0 + \beta_1x_{i1} + \cdots + \beta_px_{ip}) \geq M, \quad \forall i$$
+                    </div>
+
+                    <div class="info-box">
+                        <h4>📝 Interpretación:</h4>
+                        <ul>
+                            <li><strong>M:</strong> Representa el margen (distancia mínima al hiperplano)</li>
+                            <li><strong>Restricción 1:</strong> Normalización de los coeficientes</li>
+                            <li><strong>Restricción 2:</strong> Cada observación debe estar en el lado correcto del margen</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="column">
+                    <h3>Vectores de Soporte</h3>
+                    <div id="maximal-margin-plot" class="plot-container"></div>
+                    <div class="highlight-box">
+                        <p>
+                            Los <strong>vectores de soporte</strong> son las observaciones que:
+                        </p>
+                        <ul>
+                            <li>✓ Se encuentran exactamente sobre el margen</li>
+                            <li>✓ Son equidistantes del hiperplano de margen máximo</li>
+                            <li>✓ "Soportan" el hiperplano (si se mueven, el hiperplano cambia)</li>
+                        </ul>
+                        <p class="note">
+                            💡 <strong>Nota importante:</strong> Sólo los vectores de soporte afectan al clasificador.
+                            Las observaciones alejadas del margen no influyen en la frontera de decisión.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visualización 3D del Margen Máximo -->
+            <div class="interactive-box" style="margin-top: 3rem;">
+                <h3>🎨 Visualización 3D del Margen Máximo</h3>
+                <p>Observa cómo el hiperplano (plano 2D en este espacio 3D) separa dos clases maximizando el margen.</p>
+                <div id="maximal-margin-3d-plot" class="plot-container-large"></div>
+                <div class="highlight-box">
+                    <h4>🔍 Observa en la visualización 3D:</h4>
+                    <ul>
+                        <li><strong>Puntos azules y rojos:</strong> Las dos clases separadas</li>
+                        <li><strong>Plano semi-transparente:</strong> El hiperplano de decisión</li>
+                        <li><strong>Puntos marcados (círculos grandes):</strong> Los vectores de soporte</li>
+                        <li><strong>Separación máxima:</strong> El plano está equidistante de los puntos más cercanos de cada clase</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="limitation-box">
+                <h3>⚠️ Limitación Principal</h3>
+                <p>
+                    El clasificador de margen máximo <strong>requiere que las clases sean linealmente separables</strong>.
+                    En muchos casos reales, esto no es posible debido a:
+                </p>
+                <ul>
+                    <li><strong>Ruido en los datos:</strong> Observaciones mal etiquetadas o con errores de medición</li>
+                    <li><strong>Solapamiento natural:</strong> Las clases pueden tener regiones de superposición inherente</li>
+                    <li><strong>Outliers:</strong> Puntos atípicos que hacen imposible la separación perfecta</li>
+                    <li><strong>Datos de alta dimensión:</strong> La separabilidad lineal es menos común en espacios de alta dimensión</li>
+                </ul>
+                <p style="margin-top: 1rem;">
+                    Además, incluso cuando existe un hiperplano separador, el clasificador de margen máximo puede ser
+                    <strong>muy sensible a cambios pequeños</strong> en las observaciones. Un solo outlier puede cambiar
+                    drásticamente el hiperplano óptimo, llevando a un modelo con alta varianza.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Support Vector Classifier -->
+    <section id="svc" class="section bg-light">
+        <div class="container">
+            <h2 class="section-title">Support Vector Classifier (Soft Margin)</h2>
+
+            <div class="intro-comparison">
+                <div class="comparison-card">
+                    <h4>❌ Problema con Margen Máximo</h4>
+                    <ul>
+                        <li>Requiere separación perfecta</li>
+                        <li>No funciona con datos solapados</li>
+                        <li>Muy sensible a observaciones individuales</li>
+                        <li>Puede sobre-ajustar los datos</li>
+                    </ul>
+                </div>
+                <div class="comparison-arrow">→</div>
+                <div class="comparison-card">
+                    <h4>✅ Solución: Soft Margin</h4>
+                    <ul>
+                        <li>Permite violaciones al margen</li>
+                        <li>Funciona con cualquier tipo de datos</li>
+                        <li>Mayor robustez</li>
+                        <li>Mejor generalización</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Formulación Matemática del Support Vector Classifier</h3>
+            <p class="intro-text">
+                El Support Vector Classifier (también conocido como <strong>soft margin classifier</strong>)
+                extiende el clasificador de margen máximo permitiendo que algunas observaciones estén
+                en el lado incorrecto del margen, o incluso del hiperplano. Esto se logra introduciendo
+                <em>variables de holgura</em> (slack variables) \(\epsilon_i\).
+            </p>
+            <div class="formula-box">
+                $$\text{maximizar}_{\beta_0,\beta_1,\ldots,\beta_p,\epsilon_1,\ldots,\epsilon_n, M} \quad M$$
+                $$\text{sujeto a} \quad \sum_{j=1}^p \beta_j^2 = 1$$
+                $$y_i(\beta_0 + \beta_1x_{i1} + \cdots + \beta_px_{ip}) \geq M(1-\epsilon_i), \quad \forall i = 1,\ldots,n$$
+                $$\epsilon_i \geq 0, \quad \sum_{i=1}^n \epsilon_i \leq C$$
+            </div>
+            <div class="info-box">
+                <h4>📐 Interpretación de la Formulación:</h4>
+                <p>
+                    El término \(M(1-\epsilon_i)\) en la segunda restricción permite que una observación esté
+                    del lado correcto del hiperplano pero violando el margen cuando \(0 < \epsilon_i \leq 1\),
+                    o incluso del lado incorrecto cuando \(\epsilon_i > 1\).
+                </p>
+            </div>
+
+            <div class="two-column">
+                <div class="column">
+                    <h3>Variables de Holgura (ε)</h3>
+                    <div class="slack-explanation">
+                        <div class="slack-case">
+                            <strong>ε<sub>i</sub> = 0:</strong>
+                            <p>La observación está en el lado correcto del margen</p>
+                        </div>
+                        <div class="slack-case">
+                            <strong>0 &lt; ε<sub>i</sub> &lt; 1:</strong>
+                            <p>La observación está en el lado correcto del hiperplano, pero viola el margen</p>
+                        </div>
+                        <div class="slack-case">
+                            <strong>ε<sub>i</sub> &gt; 1:</strong>
+                            <p>La observación está en el lado incorrecto del hiperplano (mal clasificada)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="column">
+                    <h3>Parámetro de Coste C</h3>
+                    <div class="c-parameter-box">
+                        <p><strong>C</strong> controla el presupuesto para violaciones al margen:</p>
+
+                        <div class="c-slider-container">
+                            <label>Valor de C: <span id="c-value">1</span></label>
+                            <input type="range" id="c-slider" min="0.01" max="100" step="0.01" value="1">
+                        </div>
+
+                        <div id="svc-plot" class="plot-container"></div>
+
+                        <div class="c-effects">
+                            <div class="effect-card">
+                                <h4>C pequeño → Margen ancho</h4>
+                                <ul>
+                                    <li>Muchas violaciones permitidas</li>
+                                    <li>Bajo sesgo, alta varianza</li>
+                                    <li>Muchos vectores de soporte</li>
+                                </ul>
+                            </div>
+                            <div class="effect-card">
+                                <h4>C grande → Margen estrecho</h4>
+                                <ul>
+                                    <li>Pocas violaciones permitidas</li>
+                                    <li>Alto sesgo, baja varianza</li>
+                                    <li>Pocos vectores de soporte</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Support Vector Machine -->
+    <section id="svm" class="section">
+        <div class="container">
+            <h2 class="section-title">Support Vector Machine (SVM)</h2>
+
+            <div class="svm-intro">
+                <p class="large-text">
+                    ¿Qué hacemos cuando la frontera de decisión es <strong>no lineal</strong>?
+                    ¡Usamos <em>kernels</em> para ampliar el espacio de características!
+                </p>
+            </div>
+
+            <h3>El Concepto de Kernel</h3>
+            <div class="kernel-explanation">
+                <p class="intro-text">
+                    Un <strong>kernel</strong> es una función que cuantifica la similitud entre dos observaciones.
+                    La idea fundamental del <em>kernel trick</em> es que podemos calcular productos internos en
+                    espacios de características de alta dimensión (incluso infinita) sin tener que calcular
+                    explícitamente las coordenadas en ese espacio.
+                </p>
+                <p class="intro-text">
+                    Matemáticamente, el Support Vector Classifier se puede representar como:
+                </p>
+                <div class="formula-box">
+                    $$f(x) = \beta_0 + \sum_{i \in \mathcal{S}} \alpha_i \langle x, x_i \rangle$$
+                </div>
+                <p class="intro-text">
+                    donde \(\mathcal{S}\) es el conjunto de índices de los vectores de soporte, y \(\langle x, x_i \rangle\)
+                    es el producto interno. Para obtener un SVM, simplemente reemplazamos el producto interno con un kernel:
+                </p>
+                <div class="formula-box">
+                    $$f(x) = \beta_0 + \sum_{i \in \mathcal{S}} \alpha_i K(x, x_i)$$
+                </div>
+                <p class="intro-text">
+                    Esto significa que para ajustar un SVM, solo necesitamos calcular \(K(x_i, x_{i'})\) para todos los
+                    \(\binom{n}{2}\) pares distintos de observaciones de entrenamiento. ¡No necesitamos trabajar explícitamente
+                    en el espacio ampliado de características!
+                </p>
+            </div>
+
+            <div class="kernel-types">
+                <h3>Tipos de Kernels</h3>
+
+                <div class="kernel-grid">
+                    <div class="kernel-card">
+                        <h4>🔹 Kernel Lineal</h4>
+                        <div class="formula-box-small">
+                            $$K(x_i, x_{i'}) = \sum_{j=1}^p x_{ij}x_{i'j}$$
+                        </div>
+                        <p>Es simplemente el producto interno estándar. Equivalente al Support Vector Classifier.</p>
+                        <div class="kernel-viz" id="linear-kernel"></div>
+                    </div>
+
+                    <div class="kernel-card">
+                        <h4>🔸 Kernel Polinomial</h4>
+                        <div class="formula-box-small">
+                            $$K(x_i, x_{i'}) = \left(1 + \sum_{j=1}^p x_{ij}x_{i'j}\right)^d$$
+                        </div>
+                        <p>Donde <strong>d</strong> es un entero positivo (grado del polinomio).</p>
+                        <div class="controls">
+                            <label>Grado (d):
+                                <input type="range" id="poly-degree" min="1" max="5" value="2">
+                                <span id="poly-degree-value">2</span>
+                            </label>
+                        </div>
+                        <div class="kernel-viz" id="poly-kernel"></div>
+                    </div>
+
+                    <div class="kernel-card">
+                        <h4>🔴 Kernel Radial (RBF)</h4>
+                        <div class="formula-box-small">
+                            $$K(x_i, x_{i'}) = \exp\left(-\gamma \sum_{j=1}^p (x_{ij} - x_{i'j})^2\right)$$
+                        </div>
+                        <p>Donde <strong>γ</strong> es una constante positiva. Tiene comportamiento muy local.</p>
+                        <div class="controls">
+                            <label>Gamma (γ):
+                                <input type="range" id="gamma" min="0.001" max="10" step="0.001" value="1">
+                                <span id="gamma-value">1</span>
+                            </label>
+                        </div>
+                        <div class="kernel-viz" id="rbf-kernel"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="kernel-comparison">
+                <h3>Comparación Interactiva de Kernels</h3>
+                <div id="kernel-comparison-plot" class="plot-container-large"></div>
+                <div class="kernel-selector">
+                    <button class="kernel-btn active" data-kernel="linear">Lineal</button>
+                    <button class="kernel-btn" data-kernel="poly">Polinomial</button>
+                    <button class="kernel-btn" data-kernel="rbf">RBF</button>
+                </div>
+            </div>
+
+            <div class="advantage-box">
+                <h3>💡 Ventajas del Enfoque por Kernels</h3>
+                <ul>
+                    <li><strong>Eficiencia computacional:</strong> Solo necesitamos calcular \(K(x_i, x_{i'})\) para cada par de observaciones - no necesitamos calcular \(\phi(x)\) explícitamente</li>
+                    <li><strong>Flexibilidad:</strong> Podemos trabajar en espacios de características de dimensión infinita (como con el kernel RBF)</li>
+                    <li><strong>Simplicidad:</strong> No necesitamos transformar explícitamente los datos - el kernel lo hace implícitamente</li>
+                    <li><strong>Generalidad:</strong> El mismo algoritmo funciona para cualquier kernel válido</li>
+                </ul>
+            </div>
+
+            <!-- Visualización 3D de Kernels -->
+            <div class="interactive-box" style="margin-top: 3rem;">
+                <h3>🎨 Visualización 3D: Efecto de los Kernels</h3>
+                <p>Esta visualización muestra cómo diferentes kernels transforman un problema no lineal en uno linealmente separable en un espacio de mayor dimensión.</p>
+                <div id="kernel-3d-plot" class="plot-container-large"></div>
+                <div class="controls">
+                    <label>
+                        Seleccionar Kernel:
+                        <select id="kernel-3d-selector">
+                            <option value="linear">Lineal (no transforma)</option>
+                            <option value="poly" selected>Polinomial</option>
+                            <option value="rbf">RBF (Radial)</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="highlight-box">
+                    <h4>🔍 Interpretación:</h4>
+                    <ul>
+                        <li><strong>Kernel Lineal:</strong> Los datos se mantienen en el mismo espacio - no hay transformación</li>
+                        <li><strong>Kernel Polinomial:</strong> Proyecta los datos a un espacio de mayor dimensión donde se vuelven separables</li>
+                        <li><strong>Kernel RBF:</strong> Crea una representación en un espacio de dimensión infinita (mostrado aquí de forma aproximada)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ejemplos Interactivos -->
+    <section id="ejemplos" class="section bg-light">
+        <div class="container">
+            <h2 class="section-title">Ejemplos Interactivos</h2>
+
+            <div class="example-container">
+                <h3>🎮 Generador de Datos y Clasificación</h3>
+                <p>Genera tus propios datos y observa cómo diferentes SVM los clasifican.</p>
+
+                <div class="data-generator">
+                    <div class="generator-controls">
+                        <h4>Configuración de Datos</h4>
+                        <label>
+                            Tipo de patrón:
+                            <select id="pattern-type">
+                                <option value="linear">Lineal separable</option>
+                                <option value="overlap">Con solapamiento</option>
+                                <option value="circular">Circular</option>
+                                <option value="xor">XOR (no lineal)</option>
+                            </select>
+                        </label>
+                        <label>
+                            Número de puntos:
+                            <input type="number" id="n-points" min="20" max="500" value="100">
+                        </label>
+                        <label>
+                            Ruido:
+                            <input type="range" id="noise" min="0" max="2" step="0.1" value="0.3">
+                            <span id="noise-value">0.3</span>
+                        </label>
+                        <button class="btn-primary" id="generate-data">Generar Datos</button>
+                    </div>
+
+                    <div class="classifier-controls">
+                        <h4>Configuración del Clasificador</h4>
+                        <label>
+                            Kernel:
+                            <select id="classifier-kernel">
+                                <option value="linear">Lineal</option>
+                                <option value="poly">Polinomial</option>
+                                <option value="rbf">RBF</option>
+                            </select>
+                        </label>
+                        <label>
+                            Parámetro C:
+                            <input type="range" id="classifier-c" min="0.001" max="100" step="0.001" value="1">
+                            <span id="classifier-c-value">1</span>
+                        </label>
+                        <div id="kernel-params"></div>
+                        <button class="btn-success" id="train-classifier">Entrenar SVM</button>
+                    </div>
+                </div>
+
+                <div id="interactive-plot" class="plot-container-large"></div>
+
+                <div class="results-panel">
+                    <h4>Resultados</h4>
+                    <div class="metrics">
+                        <div class="metric">
+                            <span class="metric-label">Vectores de Soporte:</span>
+                            <span class="metric-value" id="n-support-vectors">-</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Precisión:</span>
+                            <span class="metric-value" id="accuracy">-</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Ancho del Margen:</span>
+                            <span class="metric-value" id="margin-width">-</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SVMs con Más de Dos Clases -->
+    <section id="multiclass" class="section bg-light">
+        <div class="container">
+            <h2 class="section-title">SVMs con Más de Dos Clases</h2>
+
+            <div class="concept-intro">
+                <p class="intro-text">
+                    Hasta ahora hemos discutido SVMs para clasificación binaria (dos clases). Sin embargo, en muchas
+                    aplicaciones del mundo real tenemos <strong>K > 2 clases</strong>. Aunque el concepto de hiperplanos
+                    separadores no se extiende naturalmente a más de dos clases, existen varias propuestas para adaptar
+                    los SVMs a este escenario.
+                </p>
+                <p class="intro-text">
+                    Las dos aproximaciones más populares son: <strong>One-Versus-One (OVO)</strong> y
+                    <strong>One-Versus-All (OVA)</strong>, también conocida como One-Versus-Rest.
+                </p>
+            </div>
+
+            <div class="two-column" style="margin-top: 3rem;">
+                <div class="column">
+                    <div class="method-card">
+                        <h3>🔵 One-Versus-One (OVO)</h3>
+                        <h4>También conocido como: All-Pairs</h4>
+
+                        <div class="formula-box">
+                            $$\text{Número de clasificadores} = \binom{K}{2} = \frac{K(K-1)}{2}$$
+                        </div>
+
+                        <div class="key-points">
+                            <h4>📋 Cómo Funciona:</h4>
+                            <ol style="text-align: left; line-height: 1.8;">
+                                <li>Se construyen $\binom{K}{2}$ SVMs, cada uno comparando un par de clases</li>
+                                <li>Por ejemplo, un SVM compara la clase k (codificada como +1) con la clase k' (codificada como -1)</li>
+                                <li>Para clasificar una nueva observación de prueba:
+                                    <ul style="margin-top: 0.5rem;">
+                                        <li>Se usa cada uno de los $\binom{K}{2}$ clasificadores</li>
+                                        <li>Se cuenta cuántas veces se asigna a cada clase</li>
+                                        <li>Se asigna a la clase que recibió más votos</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </div>
+
+                        <div class="highlight-box" style="margin-top: 1rem;">
+                            <h4>💡 Ejemplo con K=4 clases:</h4>
+                            <p>Se necesitan $\binom{4}{2} = 6$ clasificadores:</p>
+                            <ul>
+                                <li>Clase 1 vs Clase 2</li>
+                                <li>Clase 1 vs Clase 3</li>
+                                <li>Clase 1 vs Clase 4</li>
+                                <li>Clase 2 vs Clase 3</li>
+                                <li>Clase 2 vs Clase 4</li>
+                                <li>Clase 3 vs Clase 4</li>
+                            </ul>
+                        </div>
+
+                        <div class="info-box" style="margin-top: 1rem;">
+                            <h4>✅ Ventajas:</h4>
+                            <ul>
+                                <li>Cada clasificador solo necesita datos de dos clases</li>
+                                <li>Más eficiente computacionalmente para cada clasificador individual</li>
+                                <li>Funciona bien en la práctica</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="column">
+                    <div class="method-card">
+                        <h3>🟢 One-Versus-All (OVA)</h3>
+                        <h4>También conocido como: One-Versus-Rest</h4>
+
+                        <div class="formula-box">
+                            $$\text{Número de clasificadores} = K$$
+                        </div>
+
+                        <div class="key-points">
+                            <h4>📋 Cómo Funciona:</h4>
+                            <ol style="text-align: left; line-height: 1.8;">
+                                <li>Se construyen K SVMs, uno para cada clase</li>
+                                <li>El k-ésimo SVM compara la clase k (codificada como +1) contra todas las demás K-1 clases (codificadas como -1)</li>
+                                <li>Sean $\beta_{0k}, \beta_{1k}, \ldots, \beta_{pk}$ los parámetros del k-ésimo SVM</li>
+                                <li>Para clasificar una observación de prueba $x^*$:
+                                    <ul style="margin-top: 0.5rem;">
+                                        <li>Se calcula $f_k(x^*) = \beta_{0k} + \beta_{1k}x_1^* + \cdots + \beta_{pk}x_p^*$ para cada k</li>
+                                        <li>Se asigna a la clase con el valor más alto de $f_k(x^*)$</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </div>
+
+                        <div class="highlight-box" style="margin-top: 1rem;">
+                            <h4>💡 Ejemplo con K=4 clases:</h4>
+                            <p>Se necesitan K = 4 clasificadores:</p>
+                            <ul>
+                                <li>Clase 1 vs {Clases 2, 3, 4}</li>
+                                <li>Clase 2 vs {Clases 1, 3, 4}</li>
+                                <li>Clase 3 vs {Clases 1, 2, 4}</li>
+                                <li>Clase 4 vs {Clases 1, 2, 3}</li>
+                            </ul>
+                        </div>
+
+                        <div class="info-box" style="margin-top: 1rem;">
+                            <h4>✅ Ventajas:</h4>
+                            <ul>
+                                <li>Menos clasificadores que OVO cuando K es grande</li>
+                                <li>Interpretación clara: nivel de confianza de pertenencia a cada clase</li>
+                                <li>Más simple conceptualmente</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visualización Interactiva de Clasificación Multiclase -->
+            <div class="interactive-box" style="margin-top: 3rem;">
+                <h3>🎨 Visualización: Clasificación Multiclase con SVM</h3>
+                <p>Esta visualización muestra cómo funcionan los SVMs con 3 clases usando diferentes estrategias.</p>
+
+                <div class="controls" style="margin-bottom: 2rem;">
+                    <label style="margin-right: 2rem;">
+                        Estrategia:
+                        <select id="multiclass-strategy">
+                            <option value="ovo">One-Versus-One (OVO)</option>
+                            <option value="ovr">One-Versus-All (OVR)</option>
+                        </select>
+                    </label>
+                    <button class="btn-primary" id="generate-multiclass">Generar Nuevo Dataset</button>
+                </div>
+
+                <div id="multiclass-plot" class="plot-container-large"></div>
+
+                <div class="results-panel" style="margin-top: 1.5rem;">
+                    <h4>Información del Clasificador</h4>
+                    <div class="metrics">
+                        <div class="metric">
+                            <span class="metric-label">Número de Clases:</span>
+                            <span class="metric-value">3</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Clasificadores Entrenados:</span>
+                            <span class="metric-value" id="num-classifiers">-</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Precisión del Entrenamiento:</span>
+                            <span class="metric-value" id="multiclass-accuracy">-</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comparación de Enfoques -->
+            <div class="key-points" style="margin-top: 3rem;">
+                <h3>⚖️ Comparación: OVO vs OVA</h3>
+                <div class="comparison-table">
+                    <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+                        <thead>
+                            <tr style="background: #1e293b; color: white;">
+                                <th style="padding: 1rem; text-align: left; border: 1px solid #cbd5e1;">Aspecto</th>
+                                <th style="padding: 1rem; text-align: left; border: 1px solid #cbd5e1;">One-Versus-One (OVO)</th>
+                                <th style="padding: 1rem; text-align: left; border: 1px solid #cbd5e1;">One-Versus-All (OVA)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #cbd5e1;"><strong>Número de clasificadores</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #cbd5e1;">$\binom{K}{2} = \frac{K(K-1)}{2}$</td>
+                                <td style="padding: 0.75rem; border: 1px solid #cbd5e1;">K</td>
+                            </tr>
+                            <tr style="background: #f8fafc;">
+                                <td style="padding: 0.75rem; border: 1px solid #cbd5e1;"><strong>Datos por clasificador</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #cbd5e1;">Solo 2 clases (más pequeño)</td>
+                                <td style="padding: 0.75rem; border: 1px solid #cbd5e1;">Todas las clases (más grande)</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #cbd5e1;"><strong>Tiempo de entrenamiento</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #cbd5e1;">Más clasificadores pero cada uno es rápido</td>
+                                <td style="padding: 0.75rem; border: 1px solid #cbd5e1;">Menos clasificadores pero cada uno es más lento</td>
+                            </tr>
+                            <tr style="background: #f8fafc;">
+                                <td style="padding: 0.75rem; border: 1px solid #cbd5e1;"><strong>Decisión final</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #cbd5e1;">Por votación mayoritaria</td>
+                                <td style="padding: 0.75rem; border: 1px solid #cbd5e1;">Por máximo valor de f(x)</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem; border: 1px solid #cbd5e1;"><strong>Desbalance de clases</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #cbd5e1;">Menos afectado</td>
+                                <td style="padding: 0.75rem; border: 1px solid #cbd5e1;">Más afectado</td>
+                            </tr>
+                            <tr style="background: #f8fafc;">
+                                <td style="padding: 0.75rem; border: 1px solid #cbd5e1;"><strong>Uso en práctica</strong></td>
+                                <td style="padding: 0.75rem; border: 1px solid #cbd5e1;">Muy popular, implementación por defecto en muchas bibliotecas</td>
+                                <td style="padding: 0.75rem; border: 1px solid #cbd5e1;">También popular, conceptualmente más simple</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="highlight-box" style="margin-top: 2rem;">
+                <h3>🎯 Recomendaciones Prácticas</h3>
+                <ul class="key-list">
+                    <li><strong>Usar OVO cuando:</strong> Tienes muchas clases (K grande) y prefieres clasificadores más simples y rápidos de entrenar individualmente</li>
+                    <li><strong>Usar OVA cuando:</strong> Tienes pocas clases (K pequeño) o quieres interpretación directa de la confianza de cada clase</li>
+                    <li><strong>En la práctica:</strong> Ambos métodos suelen dar resultados similares. Muchas bibliotecas (como scikit-learn) usan OVO por defecto</li>
+                    <li><strong>Dato importante:</strong> Para K=3 clases, OVO requiere 3 clasificadores mientras que OVA también requiere 3, pero para K=10, OVO necesita 45 y OVA solo 10</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Relación con Regresión Logística -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Relación con Regresión Logística</h2>
+
+            <div class="comparison-intro">
+                <p>
+                    El Support Vector Classifier se puede reformular como un problema de optimización
+                    de la forma "Pérdida + Penalización":
+                </p>
+            </div>
+
+            <div class="formula-box">
+                $$\min_{\beta_0,\beta_1,\ldots,\beta_p} \left\{ \sum_{i=1}^n \max[0, 1 - y_if(x_i)] + \lambda \sum_{j=1}^p \beta_j^2 \right\}$$
+            </div>
+
+            <div class="two-column">
+                <div class="column">
+                    <h3>Función de Pérdida Hinge</h3>
+                    <div id="loss-comparison-plot" class="plot-container"></div>
+                    <p>
+                        La pérdida del SVM (hinge loss) es similar a la de regresión logística,
+                        pero tiene valor exactamente cero para observaciones bien clasificadas.
+                    </p>
+                </div>
+
+                <div class="column">
+                    <h3>Similitudes y Diferencias</h3>
+                    <div class="comparison-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Aspecto</th>
+                                    <th>SVM</th>
+                                    <th>Reg. Logística</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Función de pérdida</td>
+                                    <td>Hinge loss</td>
+                                    <td>Log loss</td>
+                                </tr>
+                                <tr>
+                                    <td>Observaciones importantes</td>
+                                    <td>Solo vectores de soporte</td>
+                                    <td>Todas (pero menos peso a alejadas)</td>
+                                </tr>
+                                <tr>
+                                    <td>Kernels</td>
+                                    <td>Muy comunes</td>
+                                    <td>Menos comunes</td>
+                                </tr>
+                                <tr>
+                                    <td>Clases bien separadas</td>
+                                    <td>Mejor desempeño</td>
+                                    <td>Desempeño comparable</td>
+                                </tr>
+                                <tr>
+                                    <td>Clases solapadas</td>
+                                    <td>Comparable</td>
+                                    <td>A veces preferible</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Aplicaciones Prácticas -->
+    <section class="section bg-light">
+        <div class="container">
+            <h2 class="section-title">Aplicaciones Prácticas de SVM</h2>
+
+            <p class="intro-text" style="text-align: center; margin-bottom: 3rem;">
+                Las Support Vector Machines han demostrado ser extremadamente versátiles y efectivas en una amplia
+                variedad de dominios. Su capacidad para manejar datos de alta dimensión, junto con el uso de kernels
+                para capturar relaciones no lineales, las hace ideales para muchos problemas del mundo real.
+            </p>
+
+            <div class="applications-grid">
+                <div class="app-card">
+                    <div class="app-icon">🏥</div>
+                    <h3>Diagnóstico Médico</h3>
+                    <p>Los SVM son especialmente útiles en bioinformática debido a su capacidad de manejar datos de alta dimensión con pocas muestras, común en estudios genómicos.</p>
+                    <ul>
+                        <li><strong>Detección de cáncer:</strong> Clasificación basada en perfiles de expresión genética</li>
+                        <li><strong>Diagnóstico de diabetes:</strong> Predicción usando datos clínicos y de laboratorio</li>
+                        <li><strong>Clasificación de tumores:</strong> Diferenciación entre tipos de cáncer</li>
+                        <li><strong>Imágenes médicas:</strong> Detección de anomalías en radiografías y resonancias</li>
+                    </ul>
+                </div>
+
+                <div class="app-card">
+                    <div class="app-icon">📝</div>
+                    <h3>Procesamiento de Texto</h3>
+                    <p>Los SVM con kernel lineal funcionan excepcionalmente bien en problemas de clasificación de texto debido a la alta dimensionalidad y dispersión de los datos.</p>
+                    <ul>
+                        <li><strong>OCR:</strong> Reconocimiento de caracteres escritos a mano (dataset MNIST)</li>
+                        <li><strong>Clasificación de documentos:</strong> Categorización automática de artículos</li>
+                        <li><strong>Detección de spam:</strong> Filtrado de correos no deseados</li>
+                        <li><strong>Análisis de sentimientos:</strong> Clasificación de opiniones positivas/negativas</li>
+                    </ul>
+                </div>
+
+                <div class="app-card">
+                    <div class="app-icon">🖼️</div>
+                    <h3>Visión por Computadora</h3>
+                    <p>Los SVM, especialmente con kernels RBF, han sido fundamentales en el desarrollo de sistemas de visión artificial antes del auge del deep learning.</p>
+                    <ul>
+                        <li><strong>Reconocimiento facial:</strong> Identificación y verificación de personas</li>
+                        <li><strong>Clasificación de objetos:</strong> Detección de peatones, vehículos, etc.</li>
+                        <li><strong>Segmentación de imágenes:</strong> Separación de regiones en imágenes médicas</li>
+                        <li><strong>Detección de gestos:</strong> Interfaces de interacción humano-computadora</li>
+                    </ul>
+                </div>
+
+                <div class="app-card">
+                    <div class="app-icon">📊</div>
+                    <h3>Finanzas y Economía</h3>
+                    <p>Los SVM proporcionan modelos robustos para toma de decisiones financieras, especialmente cuando los datos son ruidosos o no linealmente separables.</p>
+                    <ul>
+                        <li><strong>Credit scoring:</strong> Evaluación de riesgo crediticio de clientes</li>
+                        <li><strong>Detección de fraudes:</strong> Identificación de transacciones sospechosas</li>
+                        <li><strong>Predicción de mercados:</strong> Tendencias en precios de acciones</li>
+                        <li><strong>Análisis de riesgo:</strong> Evaluación de portafolios de inversión</li>
+                    </ul>
+                </div>
+
+                <div class="app-card">
+                    <div class="app-icon">🔬</div>
+                    <h3>Investigación Científica</h3>
+                    <p>Los SVM se utilizan ampliamente en investigación debido a su fundamento teórico sólido y capacidad de generalización.</p>
+                    <ul>
+                        <li><strong>Bioinformática:</strong> Predicción de estructura de proteínas</li>
+                        <li><strong>Química computacional:</strong> Relaciones estructura-actividad (QSAR)</li>
+                        <li><strong>Ecología:</strong> Modelado de distribución de especies</li>
+                        <li><strong>Física de partículas:</strong> Clasificación de eventos en aceleradores</li>
+                    </ul>
+                </div>
+
+                <div class="app-card">
+                    <div class="app-icon">🤖</div>
+                    <h3>Ingeniería y Tecnología</h3>
+                    <p>Aplicaciones en sistemas industriales donde la robustez y precisión son críticas.</p>
+                    <ul>
+                        <li><strong>Control de calidad:</strong> Detección de defectos en manufactura</li>
+                        <li><strong>Mantenimiento predictivo:</strong> Predicción de fallas en maquinaria</li>
+                        <li><strong>Reconocimiento de voz:</strong> Clasificación de fonemas</li>
+                        <li><strong>Sistemas de recomendación:</strong> Filtrado colaborativo</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="key-points" style="margin-top: 3rem;">
+                <h3>🎯 ¿Cuándo usar SVM?</h3>
+                <ul class="key-list">
+                    <li><strong>Datos de alta dimensión:</strong> Cuando p es grande relativo a n (ej. clasificación de texto, genómica)</li>
+                    <li><strong>Fronteras de decisión complejas:</strong> Cuando las clases tienen patrones no lineales que pueden capturarse con kernels</li>
+                    <li><strong>Datos limpios o semi-limpios:</strong> SVM es robusto pero funciona mejor sin demasiados outliers extremos</li>
+                    <li><strong>Problemas de clasificación binaria:</strong> Aunque se puede extender a multiclase, SVM brilla en problemas de dos clases</li>
+                    <li><strong>Conjuntos de datos pequeños a medianos:</strong> Con n entre cientos y decenas de miles (para datasets masivos, considerar SGD)</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Consejos Prácticos -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Consejos Prácticos para Usar SVM</h2>
+
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <h3>📏 Normalización de Datos</h3>
+                    <p>
+                        <strong>Siempre normaliza tus características</strong> antes de aplicar SVM.
+                        Los SVM son sensibles a la escala debido a que calculan distancias.
+                    </p>
+                    <div class="code-example">
+                        <code>
+from sklearn.preprocessing import StandardScaler<br>
+scaler = StandardScaler()<br>
+X_scaled = scaler.fit_transform(X)
+                        </code>
+                    </div>
+                </div>
+
+                <div class="tip-card">
+                    <h3>🎯 Selección de Kernel</h3>
+                    <p><strong>Guía de decisión:</strong></p>
+                    <ul>
+                        <li><strong>Kernel lineal:</strong> Cuando p es grande relativo a n</li>
+                        <li><strong>Kernel RBF:</strong> Cuando n es grande y p es pequeño</li>
+                        <li><strong>Kernel polinomial:</strong> Para relaciones polinomiales específicas</li>
+                    </ul>
+                </div>
+
+                <div class="tip-card">
+                    <h3>⚙️ Ajuste de Hiperparámetros</h3>
+                    <p>Usa <strong>validación cruzada</strong> para seleccionar:</p>
+                    <ul>
+                        <li><strong>C:</strong> Controla el balance sesgo-varianza</li>
+                        <li><strong>γ (para RBF):</strong> Controla la "localidad" del kernel</li>
+                        <li><strong>d (para polinomial):</strong> Grado del polinomio</li>
+                    </ul>
+                </div>
+
+                <div class="tip-card">
+                    <h3>⚡ Eficiencia Computacional</h3>
+                    <p><strong>Para datasets grandes:</strong></p>
+                    <ul>
+                        <li>Considera usar LinearSVC para problemas lineales</li>
+                        <li>Usa SGDClassifier con loss='hinge' para datos masivos</li>
+                        <li>Reduce dimensionalidad primero si es posible</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resumen -->
+    <section class="section bg-dark">
+        <div class="container">
+            <h2 class="section-title-white">Resumen de Conceptos Clave</h2>
+
+            <div class="summary-grid">
+                <div class="summary-card">
+                    <h4>Clasificador de Margen Máximo</h4>
+                    <ul>
+                        <li>✓ Maximiza la distancia al hiperplano</li>
+                        <li>✓ Solo funciona con datos linealmente separables</li>
+                        <li>✓ Depende solo de vectores de soporte</li>
+                        <li>✗ Muy sensible a outliers</li>
+                    </ul>
+                </div>
+
+                <div class="summary-card">
+                    <h4>Support Vector Classifier</h4>
+                    <ul>
+                        <li>✓ Permite violaciones al margen ("soft margin")</li>
+                        <li>✓ Funciona con datos no separables</li>
+                        <li>✓ Parámetro C controla sesgo-varianza</li>
+                        <li>✓ Mayor robustez</li>
+                    </ul>
+                </div>
+
+                <div class="summary-card">
+                    <h4>Support Vector Machine</h4>
+                    <ul>
+                        <li>✓ Usa kernels para fronteras no lineales</li>
+                        <li>✓ Computacionalmente eficiente</li>
+                        <li>✓ Puede trabajar en dimensiones infinitas</li>
+                        <li>✓ Muy versátil</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="final-thoughts">
+                <h3>🎓 Conclusión</h3>
+                <p class="large-text-white">
+                    Las Support Vector Machines son una herramienta poderosa y elegante para clasificación.
+                    Su capacidad de encontrar fronteras de decisión óptimas, combinada con el uso de kernels
+                    para manejar relaciones no lineales, las hace extremadamente versátiles. Aunque han sido
+                    parcialmente eclipsadas por redes neuronales profundas en algunos dominios, siguen siendo
+                    una excelente opción para muchos problemas prácticos, especialmente cuando los datos no
+                    son masivos y la interpretabilidad es importante.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 SVM Learning - Basado en "An Introduction to Statistical Learning" por James, Witten, Hastie y Tibshirani</p>
+            <p>Página web interactiva creada con fines educativos</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
