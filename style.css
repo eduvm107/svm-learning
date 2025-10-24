@@ -1560,19 +1560,27 @@ body {
         overflow-x: auto;
     }
 
-    /* Forzar tablas responsive */
-    table {
+    /* Contenedores de tablas con scroll interno */
+    .comparison-table {
         width: 100%;
         max-width: 100%;
-        display: block;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
+        margin: 1rem 0;
     }
 
-    tbody, thead, tr {
-        display: table;
+    .comparison-table table {
         width: 100%;
-        table-layout: fixed;
+        min-width: 500px; /* Ancho mínimo para evitar cortes */
+        border-collapse: collapse;
+        display: table;
+    }
+
+    .comparison-table th,
+    .comparison-table td {
+        white-space: normal; /* Permitir que el texto se ajuste */
+        word-wrap: break-word;
+        min-width: 100px;
     }
 
     /* Métricas */
