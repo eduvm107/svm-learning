@@ -1388,13 +1388,36 @@ body {
 
     /* Plots y visualizaciones */
     .plot-container {
-        height: 300px;
+        height: 350px;
         padding: 0.5rem;
+        width: 100%;
+        max-width: 100%;
+        margin: 1rem 0;
+        overflow: hidden;
     }
 
     .plot-container-large {
-        height: 400px;
+        height: 450px;
         padding: 0.5rem;
+        width: 100%;
+        max-width: 100%;
+        margin: 1rem 0;
+        overflow: hidden;
+    }
+
+    /* Forzar que los gráficos Plotly se adapten */
+    .plot-container .js-plotly-plot,
+    .plot-container-large .js-plotly-plot,
+    .plot-container .plotly,
+    .plot-container-large .plotly {
+        width: 100% !important;
+        height: 100% !important;
+    }
+
+    .plot-container svg,
+    .plot-container-large svg {
+        max-width: 100% !important;
+        height: auto !important;
     }
 
     /* Tablas */
@@ -1446,6 +1469,55 @@ body {
     .data-generator {
         grid-template-columns: 1fr;
         gap: 1.5rem;
+    }
+
+    /* Contenedores interactivos */
+    .interactive-box,
+    .example-container,
+    .c-parameter-box {
+        padding: 1.5rem 1rem;
+    }
+
+    /* Cajas de información */
+    .key-points,
+    .evolution-box,
+    .info-box,
+    .highlight-box,
+    .limitation-box,
+    .advantage-box {
+        padding: 1.5rem 1rem;
+        margin: 1.5rem 0;
+    }
+
+    /* Métricas */
+    .metrics {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .metric {
+        padding: 1rem;
+    }
+
+    .metric-value {
+        font-size: 1.5rem;
+    }
+
+    /* Botones de kernel */
+    .kernel-selector {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .kernel-btn {
+        width: 100%;
+        padding: 0.875rem 1.5rem;
+    }
+
+    /* Cards de comparación */
+    .comparison-card {
+        min-width: 100%;
+        padding: 1.5rem;
     }
 
     /* Navegación específica */
@@ -1513,6 +1585,53 @@ body {
 
     .kernel-card h4 {
         font-size: 1.2rem;
+    }
+
+    /* Plots en pantallas muy pequeñas */
+    .plot-container {
+        height: 300px;
+        padding: 0.25rem;
+    }
+
+    .plot-container-large {
+        height: 350px;
+        padding: 0.25rem;
+    }
+
+    /* Contenedores más compactos */
+    .section {
+        padding: 2.5rem 1rem;
+    }
+
+    .interactive-box,
+    .example-container,
+    .c-parameter-box {
+        padding: 1rem 0.75rem;
+    }
+
+    /* Fórmulas más pequeñas */
+    .formula-box,
+    .formula-box-small {
+        padding: 0.75rem;
+        font-size: 0.85rem;
+    }
+
+    /* Cards más compactos */
+    .app-card,
+    .tip-card,
+    .kernel-card,
+    .method-card {
+        padding: 1.5rem 1rem;
+    }
+
+    /* Grids con min-width más pequeño */
+    .kernel-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Controles más compactos */
+    .controls input[type="range"] {
+        min-width: 150px;
     }
 }
 

@@ -45,6 +45,29 @@ const colors = {
     support: '#fbbf24'
 };
 
+// Configuración responsive global para Plotly
+const responsiveConfig = {
+    responsive: true,
+    displayModeBar: false,
+    displaylogo: false
+};
+
+const responsiveLayout = {
+    autosize: true,
+    margin: { l: 40, r: 20, t: 40, b: 40 },
+    font: { size: 11 }
+};
+
+// Hacer todos los gráficos responsive al cambiar tamaño de ventana
+window.addEventListener('resize', function() {
+    const plots = document.querySelectorAll('.js-plotly-plot');
+    plots.forEach(plot => {
+        if (plot && plot.layout) {
+            Plotly.Plots.resize(plot);
+        }
+    });
+});
+
 // ============================================
 // HIPERPLANO INTERACTIVO
 // ============================================
