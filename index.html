@@ -14,13 +14,18 @@
     <nav class="navbar">
         <div class="nav-container">
             <h1 class="nav-logo">📊 SVM Learning</h1>
-            <ul class="nav-menu">
-                <li><a href="#intro">Introducción</a></li>
-                <li><a href="#maximal">Clasificador de Margen Máximo</a></li>
-                <li><a href="#svc">Support Vector Classifier</a></li>
-                <li><a href="#svm">Support Vector Machine</a></li>
-                <li><a href="#multiclass">SVMs Multiclase</a></li>
-                <li><a href="#ejemplos">Ejemplos Interactivos</a></li>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#intro" class="nav-link">Introducción</a></li>
+                <li><a href="#maximal" class="nav-link">Margen Máximo</a></li>
+                <li><a href="#svc" class="nav-link">SVC</a></li>
+                <li><a href="#svm" class="nav-link">SVM</a></li>
+                <li><a href="#multiclass" class="nav-link">Multiclase</a></li>
+                <li><a href="#ejemplos" class="nav-link">Ejemplos</a></li>
             </ul>
         </div>
     </nav>
@@ -28,22 +33,35 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
-            <h1 class="hero-title">Máquinas de Vectores de Soporte</h1>
-            <p class="hero-subtitle">Una Guía Interactiva para Comprender SVM desde sus Fundamentos</p>
+            <div class="hero-badge">Machine Learning</div>
+            <h1 class="hero-title">Support Vector Machines</h1>
+            <p class="hero-subtitle">Domina uno de los algoritmos más poderosos de clasificación en Machine Learning</p>
+            <p class="hero-description">
+                Aprende desde los fundamentos matemáticos hasta la implementación práctica con visualizaciones interactivas en 3D
+            </p>
             <div class="hero-stats">
                 <div class="stat-card">
                     <span class="stat-number">3</span>
                     <span class="stat-label">Tipos de Clasificadores</span>
                 </div>
                 <div class="stat-card">
-                    <span class="stat-number">∞</span>
-                    <span class="stat-label">Aplicaciones</span>
+                    <span class="stat-number">5+</span>
+                    <span class="stat-label">Visualizaciones 3D</span>
                 </div>
                 <div class="stat-card">
-                    <span class="stat-number">100%</span>
-                    <span class="stat-label">Interactivo</span>
+                    <span class="stat-number">10+</span>
+                    <span class="stat-label">Ejemplos Prácticos</span>
                 </div>
             </div>
+            <div class="hero-cta">
+                <a href="#intro" class="btn-hero-primary">Comenzar Aprendizaje</a>
+                <a href="#ejemplos" class="btn-hero-secondary">Ver Demos</a>
+            </div>
+        </div>
+        <div class="hero-animation">
+            <div class="floating-shape shape-1"></div>
+            <div class="floating-shape shape-2"></div>
+            <div class="floating-shape shape-3"></div>
         </div>
     </section>
 

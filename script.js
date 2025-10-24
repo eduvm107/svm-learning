@@ -1,4 +1,40 @@
 // ============================================
+// NAVEGACIÓN MÓVIL
+// ============================================
+document.addEventListener('DOMContentLoaded', function() {
+    const navToggle = document.getElementById('navToggle');
+    const navMenu = document.getElementById('navMenu');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    // Toggle del menú móvil
+    if (navToggle) {
+        navToggle.addEventListener('click', function() {
+            navToggle.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+    }
+
+    // Cerrar menú al hacer clic en un enlace
+    navLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            if (navMenu.classList.contains('active')) {
+                navToggle.classList.remove('active');
+                navMenu.classList.remove('active');
+            }
+        });
+    });
+
+    // Cerrar menú al hacer clic fuera
+    document.addEventListener('click', function(event) {
+        const isClickInside = navMenu.contains(event.target) || navToggle.contains(event.target);
+        if (!isClickInside && navMenu.classList.contains('active')) {
+            navToggle.classList.remove('active');
+            navMenu.classList.remove('active');
+        }
+    });
+});
+
+// ============================================
 // CONFIGURACIÓN GLOBAL
 // ============================================
 const colors = {
