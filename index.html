@@ -692,11 +692,11 @@
                             <ol style="text-align: left; line-height: 1.8;">
                                 <li>Se construyen K SVMs, uno para cada clase</li>
                                 <li>El k-ésimo SVM compara la clase k (codificada como +1) contra todas las demás K-1 clases (codificadas como -1)</li>
-                                <li>Sean $\beta_{0k}, \beta_{1k}, \ldots, \beta_{pk}$ los parámetros del k-ésimo SVM</li>
-                                <li>Para clasificar una observación de prueba $x^*$:
+                                <li>Sean β<sub>0k</sub>, β<sub>1k</sub>, ..., β<sub>pk</sub> los parámetros del k-ésimo SVM</li>
+                                <li>Para clasificar una observación de prueba x*:
                                     <ul style="margin-top: 0.5rem;">
-                                        <li>Se calcula $f_k(x^*) = \beta_{0k} + \beta_{1k}x_1^* + \cdots + \beta_{pk}x_p^*$ para cada k</li>
-                                        <li>Se asigna a la clase con el valor más alto de $f_k(x^*)$</li>
+                                        <li>Se calcula f<sub>k</sub>(x*) = β<sub>0k</sub> + β<sub>1k</sub>x<sub>1</sub>* + ... + β<sub>pk</sub>x<sub>p</sub>* para cada k</li>
+                                        <li>Se asigna a la clase con el valor más alto de f<sub>k</sub>(x*)</li>
                                     </ul>
                                 </li>
                             </ol>

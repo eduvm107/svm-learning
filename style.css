@@ -1520,6 +1520,34 @@ body {
         padding: 1.5rem;
     }
 
+    /* Sección multiclase específica para móvil */
+    .method-card {
+        padding: 1.5rem 1rem;
+    }
+
+    .method-card h3 {
+        font-size: 1.3rem;
+    }
+
+    .method-card h4 {
+        font-size: 0.9rem;
+    }
+
+    .method-card ol,
+    .method-card ul {
+        font-size: 0.95rem;
+        padding-left: 1.5rem;
+    }
+
+    .method-card .formula-box {
+        padding: 0.75rem;
+        font-size: 0.85rem;
+    }
+
+    .method-card .key-points h4 {
+        font-size: 1rem;
+    }
+
     /* Navegación específica */
     .nav-container {
         padding: 0 1rem;
@@ -1632,6 +1660,26 @@ body {
     /* Controles más compactos */
     .controls input[type="range"] {
         min-width: 150px;
+    }
+
+    /* Method cards en móviles pequeños */
+    .method-card h3 {
+        font-size: 1.2rem;
+    }
+
+    .method-card ol,
+    .method-card ul {
+        font-size: 0.9rem;
+    }
+
+    /* Tabla de comparación más compacta */
+    .comparison-table table {
+        font-size: 0.75rem;
+    }
+
+    .comparison-table th,
+    .comparison-table td {
+        padding: 0.5rem 0.25rem;
     }
 }
 
